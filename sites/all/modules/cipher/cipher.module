@@ -89,7 +89,7 @@
 
         //make sure within bounds
         if($new_charval > 122){
-          $new_charval = $new_charval - 122 + 97;
+          $new_charval = $new_charval - 25;
         } elseif ($new_charval < 97) {
           $new_charval = $new_charval + 25;
         }
