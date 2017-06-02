@@ -44,3 +44,9 @@
       $form_error($element,t("Please don't enter numbers or special characters except for punctuations"));
     }
   }
+
+  function element_validate_direction($element){
+    if ($element['#value'] != ("left"|"right")){
+      $form_error($element,t("Please only enter left or right (lowercase)"));
+    }
+  }
