@@ -1,5 +1,7 @@
 <?php
+  //create module
   function cipher_menu(){
+    //make module a menu link
     $items['cipher'] = array(
       'title' => 'Shift Cipher',
       'page callback' => 'drupal_get_form',
@@ -7,6 +9,7 @@
       'access callback' => TRUE,
       'type' => MENU_NORMAL_ITEM,
     );
+    //make result page
     $items['result'] = array(
       'title' => 'Shift Cipher Result',
       'page callback' => 'cipher_success',
@@ -16,17 +19,19 @@
     return $items;
   }
 
+  //provide form arguments
   function cipher_form()
   {
+    //form field with validations
     $form['input'] = array(
       '#title'=> 'Input string',
       '#description' => 'Enter the word you want to cipher',
       '#type' => 'textfield',
       '#element_validate' => array('element_validate_string'),
     );
-    $form['value'] = array(
-      '#title'=> 'Input value',
-      '#description' => 'Enter the shift cipher value',
+    $form['number'] = array(
+      '#title'=> 'Input number',
+      '#description' => 'Enter the shift cipher number',
       '#type' => 'textfield',
       '#element_validate' => array('element_validate_integer_positive'),
     );
@@ -39,14 +44,47 @@
     return $form;
   }
 
+  //Use regex to validate
   function element_validate_string($element){
     if (preg_match('/[^a-zA-Z.,!?;\s]/',$element['#value']) != 0){
       $form_error($element,t("Please don't enter numbers or special characters except for punctuations"));
     }
   }
 
+  //use if statements to validate
   function element_validate_direction($element){
     if ($element['#value'] != ("left"|"right")){
       $form_error($element,t("Please only enter left or right (lowercase)"));
     }
+  }
+
+  function cipher_form_submit($form, &$form_state){
+    $input = $form_state['values']['input'];
+    $number = $form_state['values']['number'];
+    $direction = $form_state['values']['direction'];
+    $split = explode(" ",$input);
+    $output = array();
+    foreach ($split as $letter) {
+      if (preg_match('/[.,!?;\]/', $letter) === 0) {
+        //Add new ASCII value
+        if('direction' === 'right'){
+          $new_charval = ord($letter) + intval($number);
+        } else {
+          $new_charval = ord($letter) - intval($number);
+        }
+
+        //make sure within bounds
+        if($new_charval > 122){
+          $new_charval = $new_charval - 122 + 97;
+        } elseif ($new_charval < 97) {
+          $new_charval = $new_charval + 25;
+        }
+
+        $new_letter = chr($new_charval);
+        array_push($output, $new_letter);
+      } else {
+        array_push($output, $letter);
+      }
+    }
+    $_SESSION['result'] = implode(" ", $output);
   }
