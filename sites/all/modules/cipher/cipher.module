@@ -87,4 +87,9 @@
       }
     }
     $_SESSION['result'] = implode(" ", $output);
+    $form_state['redirect'] = 'result';
+  }
+
+  function cipher_success(){
+    return '<p> Your ciphered string is ' . $_SESSION['result'] . ' <p>';
   }
