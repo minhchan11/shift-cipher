@@ -15,3 +15,23 @@
     );
     return $items;
   }
+
+  function cipher_form()
+  {
+    $form['input'] = array(
+      '#title'=> 'Input string',
+      '#description' => 'Enter the word you want to cipher',
+      '#type' => 'textfield',
+    );
+    $form['value'] = array(
+      '#title'=> 'Input value',
+      '#description' => 'Enter the shift cipher value',
+      '#type' => 'textfield',
+    );
+    $form['direction'] = array(
+      '#title'=> 'Input direction',
+      '#description' => 'Enter the shift cipher direction',
+      '#type' => 'textfield',
+    );
+    return $form;
+  }
