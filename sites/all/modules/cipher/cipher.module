@@ -22,16 +22,25 @@
       '#title'=> 'Input string',
       '#description' => 'Enter the word you want to cipher',
       '#type' => 'textfield',
+      '#element_validate' => array('element_validate_string'),
     );
     $form['value'] = array(
       '#title'=> 'Input value',
       '#description' => 'Enter the shift cipher value',
       '#type' => 'textfield',
+      '#element_validate' => array('element_validate_integer_positive'),
     );
     $form['direction'] = array(
       '#title'=> 'Input direction',
       '#description' => 'Enter the shift cipher direction',
       '#type' => 'textfield',
+      '#element_validate' => array('element_validate_direction'),
     );
     return $form;
+  }
+
+  function element_validate_string($element){
+    if (preg_match('/[^a-zA-Z.,!?;\s]/',$element['#value']) != 0){
+      $form_error($element,t("Please don't enter numbers or special characters except for punctuations"));
+    }
   }
