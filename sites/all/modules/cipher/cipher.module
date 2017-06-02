@@ -23,7 +23,7 @@
   function cipher_form()
   {
     //form field with validations
-    $form['input'] = array(
+    $form['string'] = array(
       '#title'=> 'Input string',
       '#description' => 'Enter the word you want to cipher',
       '#type' => 'textfield',
@@ -57,21 +57,31 @@
 
   //use if statements to validate
   function element_validate_direction($element){
-    if ($element['#value'] != 'left' | $element['#value'] != 'right'){
-      form_error($element,t("Please only enter left or right (lowercase)"));
-    }
+    // if ($element['#value'] != 'left' | $element['#value'] != 'right'){
+    //   form_error($element,t("Please only enter left or right (lowercase)"));
+    // }
   }
 
   function cipher_form_submit($form, &$form_state){
-    $input = $form_state['values']['input'];
+    $string = $form_state['values']['string'];
     $number = $form_state['values']['number'];
     $direction = $form_state['values']['direction'];
-    $split = explode(" ",$input);
+    $split = explode(" ",$string);
     $output = array();
-    foreach ($split as $letter) {
-      if (preg_match('/[.,!?;\]/', $letter) === 0) {
-        //Add new ASCII value
-        if('direction' === 'right'){
+    foreach ($split as $word) {
+        $new_word = cipher_each($word, $direction, $number);
+        array_push($output, $new_word);
+    }
+    $_SESSION['result'] = implode(" ",$output);
+    $form_state['redirect'] = 'result';
+  }
+
+  function cipher_each($word, $direction, $number){
+    $chars = str_split($word);
+    $output = array();
+    foreach ($chars as $letter) {
+      if (preg_match('/[.,!?;]/', $letter) === 0) {
+        if($direction === 'right'){
           $new_charval = ord($letter) + intval($number);
         } else {
           $new_charval = ord($letter) - intval($number);
@@ -90,8 +100,8 @@
         array_push($output, $letter);
       }
     }
-    $_SESSION['result'] = implode(" ", $output);
-    $form_state['redirect'] = 'result';
+    $result = join($output);
+    return $result;
   }
 
   function cipher_success(){
