@@ -1,0 +1,5 @@
+name = Cipher
+description = Make words into Code
+package = Minh Modules
+core = 7.x
+files[] = cipher.module
