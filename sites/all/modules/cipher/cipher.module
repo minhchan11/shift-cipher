@@ -51,15 +51,15 @@
   //Use regex to validate
   function element_validate_string($element){
     if (preg_match('/[^a-zA-Z.,!?;\s]/',$element['#value']) != 0){
-      $form_error($element,t("Please don't enter numbers or special characters except for punctuations"));
+      form_error($element,t("Please don't enter numbers or special characters except for punctuations"));
     }
   }
 
   //use if statements to validate
   function element_validate_direction($element){
-    // if ($element['#value'] != 'left' | $element['#value'] != 'right'){
-    //   form_error($element,t("Please only enter left or right (lowercase)"));
-    // }
+    if ($element['#value'] != ("left"||"right")){
+      form_error($element,t("Please only enter 'left' or 'right' (lowercase)"));
+    }
   }
 
   function cipher_form_submit($form, &$form_state){
