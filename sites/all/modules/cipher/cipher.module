@@ -41,6 +41,10 @@
       '#type' => 'textfield',
       '#element_validate' => array('element_validate_direction'),
     );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Caesar Cipher',
+    );
     return $form;
   }
 
@@ -53,8 +57,8 @@
 
   //use if statements to validate
   function element_validate_direction($element){
-    if ($element['#value'] != ("left"|"right")){
-      $form_error($element,t("Please only enter left or right (lowercase)"));
+    if ($element['#value'] != 'left' | $element['#value'] != 'right'){
+      form_error($element,t("Please only enter left or right (lowercase)"));
     }
   }
 

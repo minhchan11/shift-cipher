@@ -244,7 +244,21 @@
  *   );
  * @endcode
  */
-$databases = array();
+ $databases = array (
+   'default' =>
+   array (
+     'default' =>
+     array (
+       'database' => 'cipher',
+       'username' => 'cipher',
+       'password' => 'cipher',
+       'host' => '127.0.0.1',
+       'port' => '8889',
+       'driver' => 'mysql',
+       'prefix' => '',
+     ),
+   ),
+ );
 
 /**
  * Access control for update.php script.
