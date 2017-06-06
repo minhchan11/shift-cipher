@@ -28,18 +28,20 @@
       '#description' => 'Enter the word you want to cipher',
       '#type' => 'textfield',
       '#element_validate' => array('element_validate_string'),
+      '#required' => TRUE,
     );
     $form['number'] = array(
       '#title'=> 'Input number',
       '#description' => 'Enter the shift cipher number',
       '#type' => 'textfield',
-      '#element_validate' => array('element_validate_integer_positive'),
-    );
+      '#element_validate' => array('element_validate_number','element_validate_integer_positive', 'element_validate_range'),
+      '#required' => TRUE,  );
     $form['direction'] = array(
       '#title'=> 'Input direction',
       '#description' => 'Enter the shift cipher direction',
       '#type' => 'textfield',
       '#element_validate' => array('element_validate_direction'),
+      '#required' => TRUE,
     );
     $form['submit'] = array(
       '#type' => 'submit',
@@ -48,6 +50,11 @@
     return $form;
   }
 
+  function element_validate_range($element){
+    if ($element['#value'] > 26 ) {
+        form_error($element, t('Number must be less than or equal to 26.'));
+    }
+  }
   //Use regex to validate
   function element_validate_string($element){
     if (preg_match('/[^a-zA-Z.,!?;\s]/',$element['#value']) != 0){
@@ -57,7 +64,7 @@
 
   //use if statements to validate
   function element_validate_direction($element){
-    if ($element['#value'] != ("left"||"right")){
+    if ($element['#value'] != "left"||$element['#value'] != "right"){
       form_error($element,t("Please only enter 'left' or 'right' (lowercase)"));
     }
   }
